@@ -47,10 +47,14 @@ code {
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
+  outline: none;
+  border: none;
 }
 
 .post-body {
   margin-bottom: 10px;
+  outline: none;
+  border: none;
   flex-grow: 1;
 }
 
@@ -308,9 +312,21 @@ span{
   background-color: transparent;
   color: white;
   border: none; 
+  outline: none;
   text-align: center;
+  width: 100%;
   /* line-height: 1;  */
 }
+
+.readable-input-left{
+  background-color: transparent;
+  color: white;
+  border: none; 
+  outline: none;
+  width: 100%;
+  /* line-height: 1;  */
+}
+
 
 .user-container div {
   margin-bottom: 10px;

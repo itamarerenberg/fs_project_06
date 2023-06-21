@@ -6,7 +6,7 @@ import { useFetchCached } from "../../custom-hooks/useFetchCached"
 
 export function PostsList() {
     const user = useUser()
-    const posts = useFetchCached(`posts?userId=${user.id}`)[0]
+    const [posts, setPosts] = useFetchCached(`posts?userId=${user.id}`)
     const [selectedPostId, setSelectedPostId] = useState(null);
     const navigate = useNavigate()
     const location = useLocation()
@@ -19,6 +19,12 @@ export function PostsList() {
         setSelectedPostId(postId);
     };
 
+    const handleChange = (id, value, property) => {
+        const updatedPosts = [...posts]
+        const postToUpdate = updatedPosts.find((post) => post.id === id);
+        postToUpdate[property] = value;
+        setPosts(updatedPosts);
+    }
 
     const postsElement = (
         <div className="posts-container">
@@ -29,8 +35,20 @@ export function PostsList() {
                     className={`post ${post.id === selectedPostId ? 'selected' : ''}`}
                 >
                     <div className="post-content">
-                        <div className="post-title">{post.title}</div>
-                        <div className="post-body">{post.body}</div>
+                    <textarea
+                        type="text"
+                        value={post.title}
+                        onChange={(e) => handleChange(post.id, e.target.value, "title")}
+                        className="post-title"
+                    />
+                    <textarea
+                        type="text"
+                        value={post.body}
+                        onChange={(e) => handleChange(post.id, e.target.value, "body")}
+                        className="post-body"
+                    />
+                        {/* <div className="post-title">{post.title}</div>
+                        <div className="post-body">{post.body}</div> */}
                         <button
                             onClick={() => handleButtonClick(post.id)}
                             className="post-button"
