@@ -10,10 +10,6 @@ const DB_NAME = 'fs_proj_06_db'
 
 class db_warper{
     constructor(){
-        this.crete_pool();
-    }
-
-    __crete_pool(){
         this.__pool = mysql.createPool(
             {
                 connectionLimit : 100, //important
@@ -25,4 +21,23 @@ class db_warper{
             }
         )
     }
+
+    async async_query(_query, param=[]){
+        return await this.__pool.query(_query, [param]).promise();
+    }
+
+    query(_query, param=[]){
+        return this.__pool.query(_query, [param]).promise();
+    }
 }
+
+var instance;
+
+function getInstance(){
+    if (!instance){
+        instance = db_warper();
+    }
+    return instance;
+}
+
+export default getInstance;

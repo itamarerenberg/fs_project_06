@@ -1,142 +1,38 @@
-function getTodosByUserID(userId){
-    if (userId !== '3') return []
-    return [
-        {
-            "userId": 3,
-            "id": 41,
-            "title": "aliquid amet impedit consequatur aspernatur placeat eaque fugiat suscipit",
-            "completed": false
-        },
-        {
-            "userId": 3,
-            "id": 42,
-            "title": "rerum perferendis error quia ut eveniet",
-            "completed": false
-        },
-        {
-            "userId": 3,
-            "id": 43,
-            "title": "tempore ut sint quis recusandae",
-            "completed": true
-        },
-        {
-            "userId": 3,
-            "id": 44,
-            "title": "cum debitis quis accusamus doloremque ipsa natus sapiente omnis",
-            "completed": true
-        },
-        {
-            "userId": 3,
-            "id": 45,
-            "title": "velit soluta adipisci molestias reiciendis harum",
-            "completed": false
-        },
-        {
-            "userId": 3,
-            "id": 46,
-            "title": "vel voluptatem repellat nihil placeat corporis",
-            "completed": false
-        },
-        {
-            "userId": 3,
-            "id": 47,
-            "title": "nam qui rerum fugiat accusamus",
-            "completed": false
-        },
-        {
-            "userId": 3,
-            "id": 48,
-            "title": "sit reprehenderit omnis quia",
-            "completed": false
-        },
-        {
-            "userId": 3,
-            "id": 49,
-            "title": "ut necessitatibus aut maiores debitis officia blanditiis velit et",
-            "completed": false
-        },
-        {
-            "userId": 3,
-            "id": 50,
-            "title": "cupiditate necessitatibus ullam aut quis dolor voluptate",
-            "completed": true
-        },
-        {
-            "userId": 3,
-            "id": 51,
-            "title": "distinctio exercitationem ab doloribus",
-            "completed": false
-        },
-        {
-            "userId": 3,
-            "id": 52,
-            "title": "nesciunt dolorum quis recusandae ad pariatur ratione",
-            "completed": false
-        },
-        {
-            "userId": 3,
-            "id": 53,
-            "title": "qui labore est occaecati recusandae aliquid quam",
-            "completed": false
-        },
-        {
-            "userId": 3,
-            "id": 54,
-            "title": "quis et est ut voluptate quam dolor",
-            "completed": true
-        },
-        {
-            "userId": 3,
-            "id": 55,
-            "title": "voluptatum omnis minima qui occaecati provident nulla voluptatem ratione",
-            "completed": true
-        },
-        {
-            "userId": 3,
-            "id": 56,
-            "title": "deleniti ea temporibus enim",
-            "completed": true
-        },
-        {
-            "userId": 3,
-            "id": 57,
-            "title": "pariatur et magnam ea doloribus similique voluptatem rerum quia",
-            "completed": false
-        },
-        {
-            "userId": 3,
-            "id": 58,
-            "title": "est dicta totam qui explicabo doloribus qui dignissimos",
-            "completed": false
-        },
-        {
-            "userId": 3,
-            "id": 59,
-            "title": "perspiciatis velit id laborum placeat iusto et aliquam odio",
-            "completed": false
-        },
-        {
-            "userId": 3,
-            "id": 60,
-            "title": "et sequi qui architecto ut adipisci",
-            "completed": true
-        }
-    ]
+const db_warper = require('./db_warper');
+
+db = db_warper.getInstance();
+
+async function getTodosByUserID(userId){
+
+    query = `
+    SELECT *
+    FROM todos
+    WHERE user_id = ?;`;
+
+    return await db.async_query(query, [userId]);
 }
 
-function updateTodo(newTodo){
+async function addTodo(todo){
+    query = `
+    INSERT INTO todos
+    (id, user_id, title, completed, deleted)
+    VALUES (?, ?, ?, ?);`;
 
+    return await db.async_query(query, [todo.id, todo.userId, todo.title, todo.completed, todo.deleted]);
+//(id, user_id, title, body)
+}  
+
+async function updateTodo(todo){
+    query = `
+    UPDATE posts
+    SET user_id=?, title=?, completed=?, deleted=?)
+    WHERE id=?;`;
+
+    return await db.async_query(query, [todo.userId, todo.title, todo.body, todo.deleted, todo.id]);
 }
 
-function getTodoById(id){
-    return {id:id, title:"demo"}
-}
+// async function deletePost(){
 
-function addTodo(content){//generate id. completion is false
-    return {id: '100', title:content, completed: false}
-}
+// }
 
-module.exports.getTodosByUserID = getTodosByUserID;
-module.exports.updateTodo = updateTodo;
-module.exports.addTodo = addTodo;
-module.exports.getTodoById = getTodoById;
+module.exports = {getTodosByUserID, addTodo, updateTodo};
