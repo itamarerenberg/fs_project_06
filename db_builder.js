@@ -127,6 +127,16 @@ con.connect((err, res) => {
 //     console.log('connecteted!');
 //     build_db();
 // })
+const con1 = mysql.createConnection({
+    host: '127.0.0.1',
+    user: username,
+    password: pwd,
+    database: db_name
+})
+
+con1.connect((res, err) => {
+
+})
 
 function build_db(){
     //create tabels
