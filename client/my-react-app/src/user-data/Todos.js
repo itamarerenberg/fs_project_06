@@ -1,14 +1,19 @@
 import { useUser } from "./userContext"
 import { useFetchCached } from "../custom-hooks/useFetchCached"
+import { useState } from "react"
+import serverFetch from "../server-connection/serverFetch";
 
 export function Todos() {
     const user = useUser()
-    const [todos, setTodos] = useFetchCached(`/todos?userId=${user.id}`)
+    const [todos, setTodos] = useFetchCached(`todos?userId=${user.id}`)
+    const [changed, setchanged] = useState(false);
+    const [newTodo, setNewTodo] = useState("");
 
     const handleChange = (id) => {
         const updatedTodos = todos.map(todo=>
             todo.id === id ? {...todo, completed : !todo.completed} : todo)
         setTodos(updatedTodos)
+        setchanged(true)
     }
 
     const shuffleTodos = () => {
@@ -19,6 +24,43 @@ export function Todos() {
         }
         return newArray
     };
+
+    const newTodoChange = (e) => {
+        setNewTodo(e.target.value)
+    }
+
+    const save = () => {
+        serverFetch('todos', 'PUT', todos)
+        .then(todos=>{
+            console.log(todos);
+            alert("changes saved succesfully!");
+        })
+        .catch(error => { alert(`An error occurred: ${error}`)})
+        setchanged(false)
+    }
+
+    const deleteTodo = (event) => {
+        serverFetch(`todos/${event.target.value}`, 'DELETE')
+        .then(todo=>{
+            console.log(todo);
+            console.log(todo.id);
+            const newTodos = todos.filter(t => t.id != todo.id);
+            setTodos(newTodos)
+            alert("deleted succesfully!");
+        })
+        .catch(error => { alert(`An error occurred: ${error}`)})
+    }
+
+    const add = () => {
+        serverFetch('todos', 'POST', {title: newTodo})
+        .then(todo=>{
+            console.log(todo);
+            setTodos([...todos, todo])
+            setNewTodo("");
+            alert("added succesfully!");
+        })
+        .catch(error => { alert(`An error occurred: ${error}`)})
+    }
 
     const sortTodos = (method) => {
         let sortedTodos = [];
@@ -38,9 +80,9 @@ export function Todos() {
         }
         setTodos(sortedTodos)
     }
-
     const todosElement = todos.map((todo) => (
         <div key={todo.id} className="todo-item">
+            <button className="delete-button" value={todo.id} onClick={deleteTodo}>del</button>
             <input
                 type="checkbox"
                 checked={todo.completed}
@@ -57,6 +99,10 @@ export function Todos() {
         <>
             <div>
                 <h1>Todos of {user.username}</h1>
+                <div className="right-to-left">
+                    <input value={newTodo} onChange={newTodoChange} /> 
+                    <button className="my-button" onClick={add}>+</button>
+                </div>
                 <div className="todos-header">
                     <span>Select todos order:</span>
                     <select
@@ -71,6 +117,9 @@ export function Todos() {
                 </div>
                 <br />
                 <div className="todos-element">{todosElement}</div>
+                <div>
+                    <button disabled={!changed} className="my-button" onClick={save}>save changes</button>
+                </div>
             </div>
 
         </>

@@ -6,7 +6,7 @@ import { useFetchCached } from "../../custom-hooks/useFetchCached"
 
 export function PostsList() {
     const user = useUser()
-    const posts = useFetchCached(`/posts?userId=${user.id}`)[0]
+    const posts = useFetchCached(`posts?userId=${user.id}`)[0]
     const [selectedPostId, setSelectedPostId] = useState(null);
     const navigate = useNavigate()
     const location = useLocation()
@@ -42,9 +42,6 @@ export function PostsList() {
             ))}
         </div>
     );
-
-
-
 
     return (
         <>
