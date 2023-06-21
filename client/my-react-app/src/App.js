@@ -10,7 +10,8 @@ import {Todos} from './user-data/Todos'
 import {NotFound} from './NotFound'
 import React from 'react';
 import {Comments} from "./user-data/Posts/Comments";
-import { Login } from './Login';
+import { Login } from './Login/Login';
+import { Register } from './Login/Register';
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
             <Routes>
                 <Route path='/' element={<Navigate to='/Login'/>}/>
                 <Route path='/Login' element={<Login/>}/>
+                <Route path='/Register' element={<Register/>}/>
                 <Route path="/users/:id" element={<UserLayout/>}>
                     <Route index element={<h1>Home</h1>}/>
                         <Route path="Info" element={<Info/>}/>

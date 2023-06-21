@@ -14,7 +14,7 @@ function getUserByName(name){
                 "lng": "-47.0653"
             }
         },
-        "phone": "1-463-123-4447",
+        "phone": "1-464-123-4444",
         "website": "ramiro.info",
         "company": {
             "name": "Romaguera-Jacobson",
@@ -25,8 +25,27 @@ function getUserByName(name){
 }
 
 function getPasswardByName(name){
+    //return null if not exists
     return '1111';
+}
+
+function addUser(newUser){
+    validateUser(newUser)
+    //implement adding
+    return newUser //return with id etc'
+}
+
+function updateUser(id, updatedUser){
+    validateUser(updatedUser)
+    //implement updating
+}
+
+function validateUser(user){
+    //implement testing - throws correct exception
+    return true;
 }
 
 module.exports.getUserByName = getUserByName;
 module.exports.getPasswardByName = getPasswardByName;
+module.exports.addUser = addUser;
+module.exports.updateUser = updateUser;

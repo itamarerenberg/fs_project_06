@@ -1,23 +1,26 @@
 import { useState } from "react"
-import {connectionBaseUrl} from "./dataConnection"
+import {connectionBaseUrl} from "../dataConnection"
 import { useNavigate } from "react-router-dom"
-import { useUserUpdate } from "./user-data/userContext"
-import serverFetch from "./server-connection/serverFetch";
+import { useUserUpdate } from "../user-data/userContext"
+import serverFetch from "../server-connection/serverFetch";
 
-export function Login() {
+export function Register() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [repeadPassword, setrepeadPassword] = useState('')
     const navigate = useNavigate()
-    const setUser = useUserUpdate()
 
     const handleUserSubmit = (event) => {
         event.preventDefault()
-        serverFetch("login", "POST", {username: username, password: password})
+        if (password !== repeadPassword){
+            alert("Repeat passward correctly!");
+            return;
+        }
+        serverFetch("register", "POST", {username: username, password: password})
         .then(user =>
         {
-            setUser(user)
-            console.log(user)
-            navigate(`/users/${user.id}`)
+            console.log(user);
+            navigate(`/Login`)
         })
         .catch(error => { alert(`An error occurred: ${error}`)})
     }
@@ -28,6 +31,10 @@ export function Login() {
 
     const handlePasswordChange = (event) => {
         setPassword(event.target.value)
+    }
+
+    const handleRepeatPasswordChange = (event) => {
+        setrepeadPassword(event.target.value)
     }
 
     return (
@@ -41,7 +48,11 @@ export function Login() {
                 <label>Enter password: </label>
                 <input value={password} onChange={handlePasswordChange} />
             </div>
-            <button type="submit">Enter</button>
+            <div>
+                <label>Repeat password: </label>
+                <input value={repeadPassword} onChange={handleRepeatPasswordChange} />
+            </div>
+            <button type="submit">Register</button>
         </form>
 
     )

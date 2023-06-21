@@ -299,6 +299,19 @@ span{
   margin-left: 10px;
 }
 
+.input-div{
+  display: flex;
+  flex-direction: row;
+}
+
+.readable-input{
+  background-color: transparent;
+  color: white;
+  border: none; 
+  text-align: center;
+  /* line-height: 1;  */
+}
+
 .user-container div {
   margin-bottom: 10px;
 }
@@ -416,10 +429,32 @@ span{
   cursor: pointer;
 }
 
+.my-button{
+  background-color: rgba(255,93,0,0.9);
+  box-shadow: 0 2px 4px rgba(129, 69, 0, 1);
+
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-left: 20px;
+  margin-right: 30px;
+}
+
+.delete-button{
+  background-color: rgba(190, 35, 56, 1);
+  cursor: pointer;
+  margin-left: 20px;
+  margin-right: 10px;
+}
+
 .form-container button:hover {
   background-color: rgba(129, 69, 0, 1);
 }
 
+.right-to-left {
+  text-align: right;
+}
 
 
 .body {
