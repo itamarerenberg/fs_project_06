@@ -28,7 +28,7 @@ router.put('/user/:id', async (req, res) => {
     try{
         const updatedUser = req.body;
         const id = req.params.id;
-        await userDB.updateUser(id, updatedUser);
+        await userDB.updateUser({updatedUser, id:id});
         res.send(updatedUser);
     }
     catch (error) {
