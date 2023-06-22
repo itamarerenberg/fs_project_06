@@ -93,4 +93,4 @@ async function insert_todos(limit=20){
 }
 
 
-module.exports = {insert_users};
+module.exports = {insert_users, insert_todos, insert_pictures, insert_albums, comments_filler};
