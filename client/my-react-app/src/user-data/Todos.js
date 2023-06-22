@@ -33,10 +33,9 @@ export function Todos() {
         serverFetch('todos', 'PUT', todos)
         .then(todos=>{
             console.log(todos);
-            alert("changes saved succesfully!");
+            setchanged(false);
         })
         .catch(error => { alert(`An error occurred: ${error}`)})
-        setchanged(false)
     }
 
     const deleteTodo = (event) => {
@@ -46,18 +45,16 @@ export function Todos() {
             console.log(todo.id);
             const newTodos = todos.filter(t => t.id != todo.id);
             setTodos(newTodos)
-            alert("deleted succesfully!");
         })
         .catch(error => { alert(`An error occurred: ${error}`)})
     }
 
     const add = () => {
-        serverFetch('todos', 'POST', {title: newTodo})
+        serverFetch('todos', 'POST', {userId: user.id, title: newTodo})
         .then(todo=>{
             console.log(todo);
             setTodos([...todos, todo])
             setNewTodo("");
-            alert("added succesfully!");
         })
         .catch(error => { alert(`An error occurred: ${error}`)})
     }
@@ -82,7 +79,7 @@ export function Todos() {
     }
     const todosElement = todos.map((todo) => (
         <div key={todo.id} className="todo-item">
-            <button className="delete-button" value={todo.id} onClick={deleteTodo}>del</button>
+            <button className="delete-button" value={todo.id} onClick={deleteTodo}>X</button>
             <input
                 type="checkbox"
                 checked={todo.completed}

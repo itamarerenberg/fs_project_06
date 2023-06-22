@@ -19,10 +19,9 @@ export function Info() {
         serverFetch(`user/${user.id}`, 'PUT', user)
         .then(user=>{
             console.log(user);
-            alert("changes saved succesfully!");
+            setChanged(false);
         })
         .catch(error => { alert(`An error occurred: ${error}`)})
-        setChanged(false)
     }
 
     const userElement = <div className="user-container" key={user.id}>

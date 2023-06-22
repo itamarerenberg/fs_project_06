@@ -55,7 +55,9 @@ code {
   margin-bottom: 10px;
   outline: none;
   border: none;
+  font-size: large;
   flex-grow: 1;
+  width: 100%;
 }
 
 .post-button {
@@ -228,7 +230,6 @@ span{
   background-color: rgba(255,137,0,0.9);
   color: #ffffff;
   border-radius: 8px;
-  cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
@@ -324,6 +325,7 @@ span{
   border: none; 
   outline: none;
   width: 100%;
+  font-size: large;
   /* line-height: 1;  */
 }
 
@@ -452,9 +454,12 @@ span{
   color: #fff;
   border: none;
   padding: 10px 20px;
-  cursor: pointer;
   margin-left: 20px;
   margin-right: 30px;
+}
+
+.my-button:not([disabled]) {
+  cursor: pointer;
 }
 
 .delete-button{
@@ -469,7 +474,18 @@ span{
 }
 
 .right-to-left {
-  text-align: right;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.normal-height{
+  height: auto;
+}
+
+.margin{
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 

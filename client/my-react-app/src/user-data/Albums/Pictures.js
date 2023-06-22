@@ -8,23 +8,13 @@ export function Pictures() {
     const user = useUser()
     const params = useParams()
     const albumId = parseInt(params.id)
-    const albums = useFetchCached(`/albums?userId=${user.id}`)[0]//get all albums is faster then just 1 - already in LS always.
+    const albums = useFetchCached(`albums?userId=${user.id}`)[0]//get all albums is faster then just 1 - already in LS always.
     const album = albums.find(a=>a.id===albumId)
     const [searchParams, setSearchParams] = useSearchParams({n : 0})
     const index = parseInt(searchParams.get("n"))
-    const Picture = useFetchCached(`/photos?albumId=${albumId}&_start=${index}&_limit=1`)[0][0]
-    const [count, setCount] = useState(0)
-
-    useEffect(() =>{//not using the useFetchCached because wanting to get header information and not fetching data
-        fetch(`${connectionBaseUrl}/photos?albumId=${albumId}&_limit=0`)
-                .then(response => response.headers.get('x-total-count'))
-                .then(data => {
-                    setCount(data)
-                })
-        .catch(error => {
-            console.log('An error occurred:', error)
-        })
-    }, [])
+    const [Picture, setPicture] = useFetchCached(`photos?albumId=${albumId}&_start=${index}`)
+    console.log(Picture)
+    const [count, setCount] = useState(50)
 
     const rightClick = () => {
         setSearchParams({n: index + 1})

@@ -6,7 +6,7 @@ const todosDB = require('./db_manager/todos');
 router.get('/todos', (req, res) => {
     try{
         const userId = req.query.userId;
-        todos = todosDB.getTodosByUserID(userId);
+        const todos = todosDB.getTodosByUserID(userId);
         res.send(todos);
     }
     catch (error) {
@@ -29,8 +29,8 @@ router.put('/todos', (req, res) => {
 
 router.post('/todos', (req, res) => {
     try{
-        content = req.body;
-        newTodo = todosDB.addTodo(content.title);
+        const content = req.body;
+        const newTodo = todosDB.addTodo(content.title);
         res.send(newTodo);
     }
     catch (error) {
@@ -40,8 +40,8 @@ router.post('/todos', (req, res) => {
 
 router.delete('/todos/:id', (req, res) => {
     try{
-        id = req.params.id;
-        todo = todosDB.getTodoById(id);
+        const id = req.params.id;
+        const todo = todosDB.getTodoById(id);
         //implement deletion by valid = false
         res.send(todo);
     }

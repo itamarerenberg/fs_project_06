@@ -38,4 +38,20 @@ function getCommentsByPostId(postId){
     ];
 }
 
+function updateComment(newComment){
+
+}
+
+function addComment(newComment){//generate id
+    return {...newComment, id: '100'}
+}
+
+
+function getCommentById(id){
+    return {id: id, title: 'title', body: 'body'}
+}
+
 module.exports.getCommentsByPostId = getCommentsByPostId;
+module.exports.updateComment = updateComment;
+module.exports.getCommentById = getCommentById;
+module.exports.addComment = addComment;
