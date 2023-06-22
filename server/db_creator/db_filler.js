@@ -13,8 +13,9 @@ async function insert_users(limit=20){
       ).then((response) => response.json())
       .then(res => {
         for(let i = 0; i < res.length;i++){
-           res = await user.addUser(res[i])
-           users_added.push(res)
+           id = await user.addUser(res[i])
+           //res2 = await user.addPassward(res.id, res[i].address.geo.lat.substr(-4))
+           users_added.push(id)
         }
       })
       console.log(users_added)
@@ -27,8 +28,8 @@ async function posts_filler(limit=20){
   ).then((response) => response.json())
   .then(res => {
     for(let i = 0; i < res.length;i++){
-      res = await posts.addPost(res[i])
-      users_added.push(res)
+      id = await posts.addPost(res[i])
+      users_added.push(id)
     }
   })
   console.log(users_added)
@@ -42,8 +43,8 @@ async function comments_filler(limit=20){
   ).then((response) => response.json())
   .then(res => {
     for(let i = 0; i < res.length;i++){
-      res = await comments.addComment(res[i])
-      users_added.push(res)
+      id = await comments.addComment(res[i])
+      users_added.push(id)
     }
   })
   console.log(users_added)
@@ -57,8 +58,8 @@ async function insert_albums(limit=20){
       ).then((response) => response.json())
       .then(res => {
         for(let i = 0; i < res.length;i++){
-          res = await albums.addAlbum(res[i]);
-          users_added.push(res)
+          id = await albums.addAlbum(res[i]);
+          users_added.push(id)
         }
       })
       console.log(users_added)
@@ -71,8 +72,8 @@ async function insert_pictures(limit=20){
       ).then((response) => response.json())
       .then(res => {
         for(let i = 0; i < res.length;i++){
-          res = await pictures.addNewPicture(res[i]);
-          users_added.push(res)
+          id = await pictures.addNewPicture(res[i]);
+          users_added.push(id)
         }
       })
       console.log(users_added)
@@ -85,8 +86,8 @@ async function insert_todos(limit=20){
       ).then((response) => response.json())
       .then(res => {
         for(let i = 0; i < res.length;i++){
-          res = todos.addTodo(res[i]);
-          users_added.push(res)
+          id = await todos.addTodo(res[i]);
+          users_added.push(id)
         }
       })
       console.log(users_added)
