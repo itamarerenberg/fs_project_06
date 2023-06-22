@@ -1,4 +1,5 @@
 const mysql = require('mysql2');
+const { callbackify } = require('util');
 
 
 const MYSQL_HOST='127.0.0.1'
@@ -10,10 +11,6 @@ const DB_NAME = 'fs_proj_06_db'
 
 class db_warper{
     constructor(){
-        this.crete_pool();
-    }
-
-    __crete_pool(){
         this.__pool = mysql.createPool(
             {
                 connectionLimit : 100, //important
@@ -25,4 +22,28 @@ class db_warper{
             }
         )
     }
+
+    async async_query(_query, param=[]){
+        try{
+            return await this.__pool.query(_query, param).promise();
+        }catch(err){
+            console.log(err)
+            return []
+        }
+    }
+
+    query(_query, param=[], callbac=()=>{}){
+        return this.__pool.query(_query, param, callbac);
+    }
 }
+
+let instance;
+
+function getInstance(){
+    if (!instance){
+        instance = new db_warper();
+    }
+    return instance;
+}
+
+module.exports.getInstance = getInstance;

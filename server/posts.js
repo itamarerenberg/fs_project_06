@@ -1,6 +1,6 @@
-const express = require('express');
-const postsDB = require('./db_manager/posts');
-const router = express.Router();
+// const express = require('express');
+// const postsDB = require('./db_manager/posts');
+// const router = express.Router();
 
 router.get('/posts', async (req, res) => {
     try{
@@ -50,4 +50,4 @@ router.delete('/posts/:id', async (req, res) => {
     }
 })
 
-module.exports = router;
+// module.exports = router;

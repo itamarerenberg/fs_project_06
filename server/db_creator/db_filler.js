@@ -1,11 +1,3 @@
-const pictures = require('../db_manager/pictures');
-const posts = require('../db_manager/posts');
-const user = require('../db_manager/user');
-const todos = require('../db_manager/todos');
-const comments = require('../db_manager/comments');
-const albums = require('../db_manager/albums');
-
-
 async function insert_users(limit=20){
   const users_added = []
       fetch(
@@ -20,7 +12,6 @@ async function insert_users(limit=20){
       })
       console.log(users_added)
 }
-
 async function posts_filler(limit=20){
   const users_added = []
   fetch(

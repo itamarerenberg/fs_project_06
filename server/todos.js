@@ -1,7 +1,7 @@
-const express = require('express');
-const router = express.Router();
+// const express = require('express');
+// const router = express.Router();
 
-const todosDB = require('./db_manager/todos');
+// const todosDB = require('./db_manager/todos');
 
 router.get('/todos', async (req, res) => {
     try{
@@ -51,4 +51,4 @@ router.delete('/todos/:id', async (req, res) => {
     }
 })
 
-module.exports = router;
+// module.exports = router;

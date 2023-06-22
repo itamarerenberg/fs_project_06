@@ -11,8 +11,7 @@ const tables = {
             'geo_lng VARCHAR(255)',
         ],
         constraints: [
-            // '',
-            // 'id ',
+            
         ]
     },
     
@@ -24,76 +23,78 @@ const tables = {
             'bs VARCHAR(255)',
         ],
         constraints: [
-            // 'PRIMARY KEY(id)',
-            // 'id AUTO_INCREMENT',
         ]
     },
 
     users: {
         columns:[
-            'id INT',
+            'id INT PRIMARY KEY AUTO_INCREMENT',
             'name VARCHAR(255)',
-            'address_id INT',
+            'username VARCHAR(255) UNIQUE',
+            'email VARCHAR(255)',
+            'address INT',
             'phone VARCHAR(255)',
             'website VARCHAR(255)',
-            'company_id INT'
+            'company INT',
+            'deleted BOOLEAN'
         ],
         constraints: [
-            'PRIMARY KEY(id)',
-            'FOREIGN KEY (address_id) REFERENCES addresses(id)',
-            'FOREIGN KEY (company_id) REFERENCES companies(id)'
+            'FOREIGN KEY (address) REFERENCES addresses(id)',
+            'FOREIGN KEY (company) REFERENCES companies(id)'
         ]
     },
     
     posts: {
         columns:[
-            'id INT',
-            'user_id INT',
+            'id INT PRIMARY KEY AUTO_INCREMENT',
+            'userId INT',
             'title VARCHAR(255)',
             'body TEXT',
+            'deleted BOOLEAN',
         ],
         constraints: [
-            'PRIMARY KEY(id)',
-            'FOREIGN KEY (user_id) REFERENCES users(id)',
+            'FOREIGN KEY (userId) REFERENCES users(id)',
         ]
     },
     
     comments: {
         columns:[
             'id INT',
-            'post_id INT',
+            'postId INT',
             'name VARCHAR(255)',
             'email VARCHAR(255)',
             'body TEXT',
+            'deleted BOOLEAN',
         ],
+
         constraints: [
             'PRIMARY KEY(id)',
-            'FOREIGN KEY (post_id) REFERENCES posts(id)',
+            'FOREIGN KEY (postId) REFERENCES posts(id)',
         ]
     },
     
     todos: {
         columns:[
             'id INT',
-            'user_id INT',
+            'userId INT',
             'title VARCHAR(255)',
             'complited BOOLEAN',
             'deleted BOOLEAN'
         ],
         constraints: [
             'PRIMARY KEY(id)',
-            'FOREIGN KEY (user_id) REFERENCES users(id)',
+            'FOREIGN KEY (userId) REFERENCES users(id)',
         ]
     },
     
     user_pwd: {
         columns:[
-            'user_id INT',
+            'userId INT',
             'password VARCHAR(255)' //TODO: handle encryption 
         ],
         constraints: [
-            'UNIQUE (user_id)',
-            'FOREIGN KEY (user_id) REFERENCES users(id)',
+            'UNIQUE (userId)',
+            'FOREIGN KEY (userId) REFERENCES users(id)',
         ]
     },
 }
