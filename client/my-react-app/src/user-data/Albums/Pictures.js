@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react"
 import { useFetchCached } from "../../custom-hooks/useFetchCached"
 import { connectionBaseUrl } from "../../dataConnection"
 import { useUser } from "../userContext"
+import serverFetch from "../../server-connection/serverFetch"
 
 export function Pictures() {
     const user = useUser()
@@ -11,10 +12,25 @@ export function Pictures() {
     const albums = useFetchCached(`albums?userId=${user.id}`)[0]//get all albums is faster then just 1 - already in LS always.
     const album = albums.find(a=>a.id===albumId)
     const [searchParams, setSearchParams] = useSearchParams({n : 0})
+    const [changed, setChanged] = useState(false);
     const index = parseInt(searchParams.get("n"))
+    const [newTitle, setNewTitle] = useState("");
+    const [newUrl, setNewUrl] = useState("");
     const [Picture, setPicture] = useFetchCached(`photos?albumId=${albumId}&_start=${index}`)
-    console.log(Picture)
-    const [count, setCount] = useState(50)
+    // console.log(Picture)
+    const [count, setCount] = useState(0)
+
+
+    useEffect(() =>{
+        serverFetch(`photos/amount?albumId=${albumId}`)
+        .then(data=>{
+            console.log(data);
+            setCount(data.amount)
+        })
+        .catch(error => {
+            console.log('An error occurred:', error)
+        })
+    }, [])
 
     const rightClick = () => {
         setSearchParams({n: index + 1})
@@ -26,6 +42,32 @@ export function Pictures() {
 
     const changeTitle = (e) => {
         setPicture({...Picture, title: e.target.value})
+        setChanged(true);
+    }
+    
+    const save = () => {
+        serverFetch(`photos/${Picture.id}`, "PUT", Picture)
+        .then(res => {
+            console.log(res);
+            setChanged(false);
+        })
+        .catch(error => { alert(`An error occurred: ${error}`)});
+    }
+
+    const add = () => {
+        serverFetch('photos', 'POST', {albumId : albumId, title: newTitle, thumbnailUrl: newUrl})
+        .then(pic=>{
+            console.log(pic);
+            setNewUrl("");
+            setNewTitle("");
+        })
+        .catch(error => { alert(`An error occurred: ${error}`)})
+    }
+    const newUrlChange = (e) => {
+        setNewUrl(e.target.value)
+    }
+    const newTitleChange = (e) => {
+        setNewTitle(e.target.value)
     }
     
     return (
@@ -38,7 +80,17 @@ export function Pictures() {
                 <img src={Picture.thumbnailUrl} alt={Picture.title} />
                 <button disabled={index === count - 1} onClick={rightClick}>{'>'}</button>
             </div>
+            
         </div>}
+        <div className="right-to-left">
+                    <p className="margin">title: </p><input value={newTitle} className="normal-height" onChange={newTitleChange} /> 
+                    <p className="margin">url: </p><input value={newUrl} onChange={newUrlChange} /> 
+                    <button className="my-button" onClick={add}>+</button>
+                </div>
+        <div>
+                <button disabled={!changed} className="my-button" onClick={save}>save changes</button>
+            </div>
+            
 
     </>
     )

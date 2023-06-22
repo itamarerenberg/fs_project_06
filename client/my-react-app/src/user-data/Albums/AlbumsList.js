@@ -92,7 +92,7 @@ export function AlbumsList() {
                 <br />
             {albumsElement}
             <br />
-            <div  >
+            <div>
                 <button disabled={!changed} className="my-button" onClick={save}>save changes</button>
             </div>
         </>

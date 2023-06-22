@@ -29,19 +29,8 @@ export function Info() {
         <div className="input-div"> <p>Name: </p> <input className="readable-input" value={user.name} onChange={(e) => changeUser("name", e.target.value)}/> </div>
         <div className="input-div"> <p>Username: </p> <input className="readable-input" value={user.username} onChange={(e) => changeUser("username", e.target.value)}/> </div>
         <div className="input-div"> <p>Email: </p> <input className="readable-input" value={user.email} onChange={(e) => changeUser("email", e.target.value)}/> </div>
-        <div className="address">
-            Address:
-            <div className="input-div">
-            <input className="readable-input" value={user.address.street} onChange={(e) => changeUserNested("address.street", e.target.value)}/>
-            <input className="readable-input" value={user.address.city} onChange={(e) => changeUserNested("address.city", e.target.value)}/>
-            
-            <input className="readable-input" value={user.address.zipcode} onChange={(e) => changeUserNested("address.zipcode", e.target.value)}/>
-            </div>
-        </div>
         <div className="input-div"> <p>Phone: </p> <input className="readable-input" value={user.phone} onChange={(e) => changeUser("phone", e.target.value)}/> </div>
         <div className="input-div"> <p>Website: </p> <input className="readable-input" value={user.website} onChange={(e) => changeUser("website", e.target.value)}/> </div>
-
-        <div className="input-div"> <p>Company: </p> <input className="readable-input" value={user.company.name} onChange={(e) => changeUserNested("company.name", e.target.value)}/> </div>
     </div>
 
     return (

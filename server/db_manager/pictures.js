@@ -1,4 +1,4 @@
-function getPictureByAlbumId(id, index = 0){
+function getPictureByAlbumId(id){
     pics = [
         {
             "albumId": 21,
@@ -351,9 +351,22 @@ function getPictureByAlbumId(id, index = 0){
             "thumbnailUrl": "https://via.placeholder.com/150/da126"
         }
     ]
+    return pics;
+}
 
-    //return array.slice(index, index + amount);
-    return pics[index]
+function getPictureById(id){
+    return {id:id, "albumId": 21,"title": "asperiores qui aut ab odit facilis excepturi dolorum a","thumbnailUrl": "https://via.placeholder.com/150/da126"}
+}
+
+function updatePicture(picture){
+
+}
+
+function addNewPicture(picture){
+    return {...picture, id: 101};
 }
 
 module.exports.getPictureByAlbumId = getPictureByAlbumId;
+module.exports.getPictureById = getPictureById;
+module.exports.updatePicture = updatePicture;
+module.exports.addNewPicture = addNewPicture;
