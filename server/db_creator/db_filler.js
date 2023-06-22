@@ -6,35 +6,35 @@ const comments = require('../db_manager/comments');
 const albums = require('../db_manager/albums');
 
 
-function insert_users(limit=20){
+async function insert_users(limit=20){
   const users_added = []
       fetch(
         `https://jsonplaceholder.typicode.com/users`
       ).then((response) => response.json())
       .then(res => {
         for(let i = 0; i < res.length;i++){
-          res = user.addUser(res[i]);
-          users_added.push(res)
+           res = await user.addUser(res[i])
+           users_added.push(res)
         }
       })
       console.log(users_added)
 }
 
-function posts_filler(limit=20){
+async function posts_filler(limit=20){
   const users_added = []
   fetch(
     `https://jsonplaceholder.typicode.com/posts`
   ).then((response) => response.json())
   .then(res => {
     for(let i = 0; i < res.length;i++){
-      res = posts.addPost(res[i])
+      res = await posts.addPost(res[i])
       users_added.push(res)
     }
   })
   console.log(users_added)
 }
 
-function comments_filler(limit=20){
+async function comments_filler(limit=20){
 
   const users_added = []
   fetch(
@@ -42,7 +42,7 @@ function comments_filler(limit=20){
   ).then((response) => response.json())
   .then(res => {
     for(let i = 0; i < res.length;i++){
-      res = comments.addComment(res[i])
+      res = await comments.addComment(res[i])
       users_added.push(res)
     }
   })
@@ -50,35 +50,35 @@ function comments_filler(limit=20){
 
 }
 
-function insert_albums(limit=20){
+async function insert_albums(limit=20){
   const users_added = []
       fetch(
         `https://jsonplaceholder.typicode.com/albums`
       ).then((response) => response.json())
       .then(res => {
         for(let i = 0; i < res.length;i++){
-          res = albums.addAlbum(res[i]);
+          res = await albums.addAlbum(res[i]);
           users_added.push(res)
         }
       })
       console.log(users_added)
 }
 
-function insert_pictures(limit=20){
+async function insert_pictures(limit=20){
   const users_added = []
       fetch(
         `https://jsonplaceholder.typicode.com/photos`
       ).then((response) => response.json())
       .then(res => {
         for(let i = 0; i < res.length;i++){
-          res = pictures.addNewPicture(res[i]);
+          res = await pictures.addNewPicture(res[i]);
           users_added.push(res)
         }
       })
       console.log(users_added)
 }
 
-function insert_todos(limit=20){
+async function insert_todos(limit=20){
   const users_added = []
       fetch(
         `https://jsonplaceholder.typicode.com/todos`
