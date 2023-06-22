@@ -12,6 +12,7 @@ async function getPostsByUserID(userId){
     return await db.async_query(query, [userId]);
 }
 
+<<<<<<< HEAD
 async function addPost(post){
     query = `
     INSERT INTO posts
@@ -35,3 +36,21 @@ async function updatePost(post){
 // }
 
 module.exports = {getPostsByUserID, addPost, updatePost};
+=======
+function updatePost(newPost){
+
+}
+
+function addPost(newPost){
+    return {...newPost, id: '100'}
+}
+
+function getPostById(id){
+    return {id: id, title: 'title', body: 'body'}
+}
+
+module.exports.getPostsByUserID = getPostsByUserID;
+module.exports.updatePost = updatePost;
+module.exports.addPost = addPost;
+module.exports.getPostById = getPostById;
+>>>>>>> 15ecd1823f5e6739e918dac7a13b54d57a954e82
