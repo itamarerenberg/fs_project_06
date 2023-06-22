@@ -34,7 +34,8 @@ async function addPost(post){
                 resolve(insertedId);
             }
         });
-    });}  
+    });
+}  
 
 async function updatePost(post){
     return new Promise((resolve, reject) => {

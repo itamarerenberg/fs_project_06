@@ -1,54 +1,72 @@
 function getCommentsByPostId(postId){
-    return [
-        {
-            "postId": 21,
-            "id": 101,
-            "name": "perspiciatis magnam ut eum autem similique explicabo expedita",
-            "email": "Lura@rod.tv",
-            "body": "ut aut maxime officia sed aliquam et magni autem\nveniam repudiandae nostrum odio enim eum optio aut\nomnis illo quasi quibusdam inventore explicabo\nreprehenderit dolor saepe possimus molestiae"
-        },
-        {
-            "postId": 21,
-            "id": 102,
-            "name": "officia ullam ut neque earum ipsa et fuga",
-            "email": "Lottie.Zieme@ruben.us",
-            "body": "aut dolorem quos ut non\naliquam unde iure minima quod ullam qui\nfugiat molestiae tempora voluptate vel labore\nsaepe animi et vitae numquam ipsa"
-        },
-        {
-            "postId": 21,
-            "id": 103,
-            "name": "ipsum a ut",
-            "email": "Winona_Price@jevon.me",
-            "body": "totam eum fugiat repellendus\nquae beatae explicabo excepturi iusto et\nrepellat alias iure voluptates consequatur sequi minus\nsed maxime unde"
-        },
-        {
-            "postId": 21,
-            "id": 104,
-            "name": "a assumenda totam",
-            "email": "Gabriel@oceane.biz",
-            "body": "qui aperiam labore animi magnam odit est\nut autem eaque ea magni quas voluptatem\ndoloribus vel voluptatem nostrum ut debitis enim quaerat\nut esse eveniet aut"
-        },
-        {
-            "postId": 21,
-            "id": 105,
-            "name": "voluptatem repellat est",
-            "email": "Adolph.Ondricka@mozell.co.uk",
-            "body": "ut rerum illum error at inventore ab nobis molestiae\nipsa architecto temporibus non aliquam aspernatur omnis quidem aliquid\nconsequatur non et expedita cumque voluptates ipsam quia\nblanditiis libero itaque sed iusto at"
-        }
-    ];
+    return new Promise((resolve, reject) => {
+        const query = `
+            SELECT * FROM 
+            comments
+            WHERE postId = ?
+            `
+        db.query(query, [postId], (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
 }
 
 function updateComment(newComment){
-
+    return new Promise((resolve, reject) => {
+        const query = `
+            UPDATE comments
+            SET postId=?, name=?, body=?, email=?, deleted=?
+            WHERE id=? 
+            `
+        db.query(query, [newComment.postId, newComment.name, newComment.body, newComment.email, newComment.deleted, newComment.id], (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                const insertedId = results[0];
+                resolve(insertedId);
+            }
+        });
+    });
 }
 
 function addComment(newComment){//generate id
-    return {...newComment, id: '100'}
+    return new Promise((resolve, reject) => {
+        const query = 
+            `INSERT INTO posts
+            (postId, name, body, email, deleted)
+            VALUES (?, ?, ?, ?);`;
+        
+        db.query(query, [newComment.postId, newComment.name, newComment.body, newComment.email, false], (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                const insertedId = results.insertId;
+                resolve(insertedId);
+            }
+        });
+    });
 }
 
 
 function getCommentById(id){
-    return {id: id, title: 'title', body: 'body'}
+    return new Promise((resolve, reject) => {
+        const query = `
+            SELECT * FROM 
+            comments
+            WHERE id = ?
+            `
+        db.query(query, [id], (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results[0]);
+            }
+        });
+    });
 }
 
 module.exports.getCommentsByPostId = getCommentsByPostId;

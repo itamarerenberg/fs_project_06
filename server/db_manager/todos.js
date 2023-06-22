@@ -4,31 +4,56 @@ db = db_warper.getInstance();
 
 async function getTodosByUserID(userId){
 
-    query = `
-    SELECT *
-    FROM todos
-    WHERE user_id = ?;`;
-
-    return await db.async_query(query, [userId]);
+    return new Promise((resolve, reject) => {
+        const query = `
+            SELECT * FROM 
+            todos
+            WHERE userId = ?
+            `
+        db.query(query, [userId], (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
 }
 
 async function addTodo(todo){
-    query = `
-    INSERT INTO todos
-    (id, user_id, title, completed, deleted)
-    VALUES (?, ?, ?, ?);`;
-
-    return await db.async_query(query, [todo.id, todo.userId, todo.title, todo.completed, todo.deleted]);
-//(id, user_id, title, body)
+    return new Promise((resolve, reject) => {
+        const query = 
+            `INSERT INTO todos
+            (userId, title, completed, deleted)
+            VALUES (?, ?, ?, ?);`;
+        
+        db.query(query, [todo.userId, todo.title, false, false], (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                const insertedId = results.insertId;
+                resolve(insertedId);
+            }
+        });
+    });
 }  
 
 async function updateTodo(todo){
-    query = `
-    UPDATE posts
-    SET user_id=?, title=?, completed=?, deleted=?)
-    WHERE id=?;`;
-
-    return await db.async_query(query, [todo.userId, todo.title, todo.body, todo.deleted, todo.id]);
+    return new Promise((resolve, reject) => {
+        const query = `
+            UPDATE todos
+            SET userId=?, title=?, completed=?, deleted=?
+            WHERE id=? 
+            `
+        db.query(query, [todo.userId, todo.title, todo.completed, todo.deleted, todo.id], (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                const insertedId = results[0];
+                resolve(insertedId);
+            }
+        });
+    });
 }
 
 // async function deletePost(){
