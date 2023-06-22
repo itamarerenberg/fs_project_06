@@ -94,8 +94,6 @@ function addUser(user) {
                             }
                         });
                     }));
-
-                // resolve(insertedId);
             }
         });
     });
