@@ -2,10 +2,10 @@ const express = require('express');
 const commentsDB = require('./db_manager/comments');
 const router = express.Router();
 
-router.get('/comments', (req, res) => {
+router.get('/comments', async (req, res) => {
     try{
         const postId = req.query.postId;
-        const comments = commentsDB.getCommentsByPostId(postId);
+        const comments = await commentsDB.getCommentsByPostId(postId);
         res.send(comments);
     }
     catch (error) {
@@ -13,11 +13,11 @@ router.get('/comments', (req, res) => {
     }
 })
 
-router.put('/comments', (req, res) => {
+router.put('/comments', async (req, res) => {
     try{
         const comments = req.body;
         for(let i = 0; i < comments.length; i++){
-            commentsDB.updateComment(comments[i]);
+            await commentsDB.updateComment(comments[i]);
         }
         res.send(comments);
     }
@@ -26,22 +26,23 @@ router.put('/comments', (req, res) => {
     }
 })
 
-router.post('/comments', (req, res) => {
+router.post('/comments', async (req, res) => {
     try{
         const content = req.body;
-        const newComment = commentsDB.addComment(content);
-        res.send(newComment);
+        const id = await commentsDB.addComment(content);
+        res.send({...content, id:id});
     }
     catch (error) {
         res.status(400).send({error: error.message})
     }
 })
 
-router.delete('/comments/:id', (req, res) => {
+router.delete('/comments/:id', async (req, res) => {
     try{
         const id = req.params.id;
-        const comment = commentsDB.getCommentById(id);
-        //implement deletion by valid = false
+        const comment = await commentsDB.getCommentById(id);
+        comment.deleted = true;
+        await commentsDB.updateComment(comment);
         res.send(comment);
     }
     catch (error) {

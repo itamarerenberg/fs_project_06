@@ -2,10 +2,10 @@ const express = require('express');
 const postsDB = require('./db_manager/posts');
 const router = express.Router();
 
-router.get('/posts', (req, res) => {
+router.get('/posts', async (req, res) => {
     try{
         const userId = req.query.userId;
-        const posts = postsDB.getPostsByUserID(userId);
+        const posts = await postsDB.getPostsByUserID(userId);
         res.send(posts);
     }
     catch (error) {
@@ -13,11 +13,11 @@ router.get('/posts', (req, res) => {
     }
 })
 
-router.put('/posts', (req, res) => {
+router.put('/posts', async (req, res) => {
     try{
         const posts = req.body;
         for(let i = 0; i < posts.length; i++){
-            postsDB.updatePost(posts[i]);
+            await postsDB.updatePost(posts[i]);
         }
         res.send(posts);
     }
@@ -26,22 +26,23 @@ router.put('/posts', (req, res) => {
     }
 })
 
-router.post('/posts', (req, res) => {
+router.post('/posts', async (req, res) => {
     try{
         const content = req.body;
-        const newPost = postsDB.addPost(content);
-        res.send(newPost);
+        const id = await postsDB.addPost(content);
+        res.send({...content, id:id});
     }
     catch (error) {
         res.status(400).send({error: error.message})
     }
 })
 
-router.delete('/posts/:id', (req, res) => {
+router.delete('/posts/:id', async (req, res) => {
     try{
         const id = req.params.id;
-        const post = postsDB.getPostById(id);
-        //implement deletion by valid = false
+        const post = await postsDB.getPostById(id);
+        post.deleted = true;
+        await postsDB.updatePost(post);
         res.send(post);
     }
     catch (error) {
