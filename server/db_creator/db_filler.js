@@ -13,7 +13,7 @@ async function insert_users(limit=20){
       ).then((response) => response.json())
       .then(res => {
         for(let i = 0; i < res.length;i++){
-           id = await user.addUser(res[i])
+           id = await user.addUser({...res[i], passward: res[i].address.geo.lat.substr(-4)})
            //res2 = await user.addPassward(res.id, res[i].address.geo.lat.substr(-4))
            users_added.push(id)
         }
