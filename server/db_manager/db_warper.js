@@ -1,4 +1,5 @@
 const mysql = require('mysql2');
+const { callbackify } = require('util');
 
 
 const MYSQL_HOST='127.0.0.1'
@@ -23,21 +24,26 @@ class db_warper{
     }
 
     async async_query(_query, param=[]){
-        return await this.__pool.query(_query, [param]).promise();
+        try{
+            return await this.__pool.query(_query, param).promise();
+        }catch(err){
+            console.log(err)
+            return []
+        }
     }
 
-    query(_query, param=[]){
-        return this.__pool.query(_query, [param]).promise();
+    query(_query, param=[], callbac=()=>{}){
+        return this.__pool.query(_query, param, callbac);
     }
 }
 
-var instance;
+let instance;
 
 function getInstance(){
     if (!instance){
-        instance = db_warper();
+        instance = new db_warper();
     }
     return instance;
 }
 
-export default getInstance;
+module.exports.getInstance = getInstance;

@@ -7,19 +7,18 @@ async function getPostsByUserID(userId){
     query = `
     SELECT *
     FROM posts
-    WHERE user_id = ?;`;
+    WHERE user_id = ? AND deleted = FALSE;`;
 
     return await db.async_query(query, [userId]);
 }
 
-<<<<<<< HEAD
 async function addPost(post){
     query = `
     INSERT INTO posts
-    (id, user_id, title, body, deleted)
+    (userId, title, body, deleted)
     VALUES (?, ?, ?, ?);`;
-    return await db.async_query(query, [post.id, post.userId, post.title, post.body, post.deleted]);
-//(id, user_id, title, body)
+
+    return await db.async_query(query, [post.userId, post.title, post.body, false]);
 }  
 
 async function updatePost(post){
@@ -31,26 +30,12 @@ async function updatePost(post){
     return await db.async_query(query, [post.userId, post.title, post.body, post.deleted, post.id]);
 }
 
-// async function deletePost(){
-
-// }
-
 module.exports = {getPostsByUserID, addPost, updatePost};
-=======
-function updatePost(newPost){
 
-}
+// module.exports.getPostsByUserID = getPostsByUserID;
 
-function addPost(newPost){
-    return {...newPost, id: '100'}
-}
+// module.exports.updatePost = updatePost;
 
-function getPostById(id){
-    return {id: id, title: 'title', body: 'body'}
-}
+// module.exports.addPost = addPost;
 
-module.exports.getPostsByUserID = getPostsByUserID;
-module.exports.updatePost = updatePost;
-module.exports.addPost = addPost;
-module.exports.getPostById = getPostById;
->>>>>>> 15ecd1823f5e6739e918dac7a13b54d57a954e82
+// module.exports.getPostById = getPostById;

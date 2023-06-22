@@ -14,9 +14,9 @@ const commentsRoutes = require('./comments');
 const albumsRoutes = require('./albums');
 const picturesRoutes = require('./pictures');
 
-app.use('/', postsRoutes);
+// app.use('/', postsRoutes);
 app.use('/', userRoutes);
-app.use('/', todosRoutes);
+// app.use('/', todosRoutes);
 app.use('/', commentsRoutes);
 app.use('/', albumsRoutes);
 app.use('/', picturesRoutes);
