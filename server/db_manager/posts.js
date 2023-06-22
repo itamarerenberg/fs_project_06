@@ -3,31 +3,55 @@ const db_warper = require('./db_warper');
 db = db_warper.getInstance();
 
 async function getPostsByUserID(userId){
-
-    query = `
-    SELECT *
-    FROM posts
-    WHERE user_id = ? AND deleted = FALSE;`;
-
-    return await db.async_query(query, [userId]);
+    return new Promise((resolve, reject) => {
+        const query = `
+            SELECT * FROM 
+            posts
+            WHERE userId = ?
+            `
+        db.query(query, [userId], (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
 }
 
 async function addPost(post){
-    query = `
-    INSERT INTO posts
-    (userId, title, body, deleted)
-    VALUES (?, ?, ?, ?);`;
-
-    return await db.async_query(query, [post.userId, post.title, post.body, false]);
-}  
+    return new Promise((resolve, reject) => {
+        const query = 
+            `INSERT INTO posts
+            (userId, title, body, deleted)
+            VALUES (?, ?, ?, ?);`;
+        
+        db.query(query, [post.userId, post.title, post.body, false], (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                const insertedId = results.insertId;
+                resolve(insertedId);
+            }
+        });
+    });}  
 
 async function updatePost(post){
-    query = `
-    UPDATE posts
-    SET user_id=?, title=?, body=?, deleted=?)
-    WHERE id=?;`;
-
-    return await db.async_query(query, [post.userId, post.title, post.body, post.deleted, post.id]);
+    return new Promise((resolve, reject) => {
+        const query = `
+            UPDATE posts
+            SET userId=?, title=?, body=?, deleted=?
+            WHERE id=? 
+            `
+        db.query(query, [post.userId, post.title, post.body, post.deleted, post.id], (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                const insertedId = results[0];
+                resolve(insertedId);
+            }
+        });
+    });
 }
 
 module.exports = {getPostsByUserID, addPost, updatePost};
