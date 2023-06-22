@@ -2,11 +2,11 @@ const express = require('express');
 const picturesDB = require('./db_manager/pictures');
 const router = express.Router();
 
-router.get('/photos', (req, res) => {
+router.get('/photos', async (req, res) => {
     try{
         const albumID = req.query.albumId;
         const index = req.query._start;
-        const pictures = picturesDB.getPictureByAlbumId(albumID)
+        const pictures = await picturesDB.getPictureByAlbumId(albumID)
         res.send(pictures[index]);
     }
     catch (error) {
@@ -14,10 +14,10 @@ router.get('/photos', (req, res) => {
     }
 })
 
-router.get('/photos/amount', (req, res) => {
+router.get('/photos/amount', async (req, res) => {
     try{
         const albumID = req.query.albumId;
-        const pictures = picturesDB.getPictureByAlbumId(albumID)
+        const pictures = await picturesDB.getPictureByAlbumId(albumID)
         res.send({amount: pictures.length});
     }
     catch (error) {
@@ -25,11 +25,11 @@ router.get('/photos/amount', (req, res) => {
     }
 })
 
-router.put('/photos/:id', (req, res) => {
+router.put('/photos/:id', async (req, res) => {
     try{
         const id = req.params.id;
         const picture = req.body;
-        picturesDB.updatePicture({...picture, id: id})
+        await picturesDB.updatePicture({...picture, id: id})
         res.send({...picture, id: id});
     }
     catch (error) {
@@ -37,11 +37,11 @@ router.put('/photos/:id', (req, res) => {
     }
 })
 
-router.post('/photos', (req, res) => {
+router.post('/photos', async (req, res) => {
     try{
         const content = req.body;
-        const newPic = picturesDB.addNewPicture(content)
-        res.send(newPic);
+        const id = await picturesDB.addNewPicture(content)
+        res.send({...content, id:id});
     }
     catch (error) {
         res.status(400).send({error: error.message})
