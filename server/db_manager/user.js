@@ -19,30 +19,6 @@ function getUserByName(name){
             }
         });
     });
-
-    // return {
-    //     "id": 3,
-    //     "name": "Clementine Bauch",
-    //     "username": "Samantha",
-    //     "email": "Nathan@yesenia.net",
-    //     "address": {
-    //         "street": "Douglas Extension",
-    //         "suite": "Suite 847",
-    //         "city": "McKenziehaven",
-    //         "zipcode": "59590-4157",
-    //         "geo": {
-    //             "lat": "-68.6102",
-    //             "lng": "-47.0653"
-    //         }
-    //     },
-    //     "phone": "1-464-123-4444",
-    //     "website": "ramiro.info",
-    //     "company": {
-    //         "name": "Romaguera-Jacobson",
-    //         "catchPhrase": "Face to face bifurcated interface",
-    //         "bs": "e-enable strategic applications"
-    //     }
-    // };
 }
 
 function getPasswardByName(name){
@@ -86,7 +62,7 @@ function addUser(user) {
                         (userId, password)
                         VALUES (?, ?)
                         `
-                        db.query(query, [insertedId, user.password], (error, results) => {
+                        db.query(query, [insertedId, user.passward], (error, results) => {
                             if (error) {
                                 reject(error);
                             } else {
@@ -99,16 +75,16 @@ function addUser(user) {
     });
 }
 
-function updateUser(id, updatedUser){
-    validateUser(updatedUser)
+function updateUser(user){
+    validateUser(user)
 
     return new Promise((resolve, reject) => {
         const query = `
-            UPDATE  users
+            UPDATE users
             SET name=?, username=?, email=?, phone=?, website=?, deleted=?
             WHERE id=? 
             `
-        db.query(query, [user.name, user.username, user.email, user.phone, user.website, user.deleted, id], (error, results) => {
+        db.query(query, [user.name, user.username, user.email, user.phone, user.website, user.deleted, user.id], (error, results) => {
             if (error) {
                 reject(error);
             } else {
