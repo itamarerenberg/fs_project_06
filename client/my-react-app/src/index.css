@@ -319,6 +319,16 @@ span{
   /* line-height: 1;  */
 }
 
+.readable-input-black{
+  background-color: transparent;
+  color: black;
+  border: none; 
+  outline: none;
+  text-align: center;
+  font-size: large;
+  width: 100%;
+}
+
 .readable-input-left{
   background-color: transparent;
   color: white;

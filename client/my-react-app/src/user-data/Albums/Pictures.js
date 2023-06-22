@@ -23,12 +23,16 @@ export function Pictures() {
     const leftClick = () => {
         setSearchParams({n: index - 1})
     }
+
+    const changeTitle = (e) => {
+        setPicture({...Picture, title: e.target.value})
+    }
     
     return (
     <>
         {Picture && album && <div className="picture-container">
             <h2>Pictures of {album.title} Album</h2>
-            <h3>{Picture.title}</h3>
+            <input className="readable-input-black" value={Picture.title} onChange={changeTitle}/>
             <div className="image-navigation">
                 <button disabled={index === 0} onClick={leftClick}>{'<'}</button>
                 <img src={Picture.thumbnailUrl} alt={Picture.title} />
